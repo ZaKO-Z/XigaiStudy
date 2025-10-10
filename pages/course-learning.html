@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>课程学习</title>
+    <title>AI智能学习助手</title>
     <style>
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
@@ -24,17 +24,10 @@
             font-size: 24px;
             margin: 0;
         }
-        .search-box {
+        .header-actions {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
-        }
-        .search-input {
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            width: 200px;
         }
         .btn {
             padding: 8px 16px;
@@ -51,120 +44,476 @@
         .btn-primary:hover {
             background-color: #2563eb;
         }
-        .course-grid {
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .main-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            height: calc(100vh - 120px);
+        }
+        .chat-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #f8fafc;
+            border-radius: 8px 8px 0 0;
+        }
+        .chat-header h2 {
+            color: #1f2937;
+            margin: 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+        .message.user {
+            background-color: #3b82f6;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .message.ai {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            align-self: flex-start;
+        }
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            background-color: #f8fafc;
+            border-radius: 0 0 8px 8px;
+        }
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: none;
+            min-height: 40px;
+            max-height: 120px;
+            font-family: inherit;
+        }
+        .chat-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
-        .course-card {
+        .file-upload-section {
             background: white;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
         }
-        .course-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .course-card h3 {
+        .file-upload-section h3 {
             color: #1f2937;
-            margin: 0 0 10px 0;
-            font-size: 18px;
-        }
-        .course-card p {
-            color: #6b7280;
             margin: 0 0 15px 0;
-            line-height: 1.5;
+            font-size: 16px;
         }
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
             margin-bottom: 15px;
         }
-        .course-duration {
+        .file-upload-area:hover {
+            border-color: #3b82f6;
+            background-color: #f8fafc;
+        }
+        .file-upload-area.dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .file-upload-text {
             color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .file-types {
+            color: #9ca3af;
             font-size: 12px;
         }
-        .course-level {
-            background-color: #dbeafe;
-            color: #1e40af;
-            padding: 2px 8px;
-            border-radius: 12px;
+        .file-input {
+            display: none;
+        }
+        .uploaded-files {
+            margin-top: 15px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-icon {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .file-name {
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .file-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .btn-small {
+            padding: 4px 8px;
             font-size: 12px;
+            border-radius: 4px;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        .ai-features {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .ai-features h3 {
+            color: #1f2937;
+            margin: 0 0 15px 0;
+            font-size: 16px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-icon {
+            color: #3b82f6;
+            font-size: 16px;
+        }
+        .feature-text {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .welcome-message {
+            text-align: center;
+            color: #6b7280;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .sidebar {
+                order: -1;
+            }
         }
     </style>
 </head>
 <body>
     <div class="page-header">
-        <h1>课程学习</h1>
-        <div class="search-box">
-            <input type="text" placeholder="搜索课程..." class="search-input">
-            <button class="btn btn-primary">搜索</button>
+        <h1>AI智能学习助手</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="clearChat()">清空对话</button>
+            <button class="btn btn-primary" onclick="exportNotes()">导出笔记</button>
         </div>
     </div>
     
-    <div class="course-grid">
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 2小时</span>
-                <span class="course-level">初级</span>
+    <div class="main-container">
+        <!-- 聊天区域 -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <h2>🤖 AI学习助手</h2>
             </div>
-            <h3>JavaScript基础入门</h3>
-            <p>学习JavaScript的基本语法、变量、函数和对象等核心概念，为后续学习打下坚实基础。</p>
-            <button class="btn btn-primary">开始学习</button>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    您好！我是您的AI学习助手。您可以上传PDF、PPT等学习资料，我会帮您总结要点、生成笔记和习题。有什么问题随时问我！
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <div class="chat-input-container">
+                    <textarea 
+                        id="chatInput" 
+                        class="chat-input" 
+                        placeholder="输入您的问题或学习需求..."
+                        rows="1"
+                    ></textarea>
+                    <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
         </div>
         
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 3小时</span>
-                <span class="course-level">中级</span>
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <!-- 文件上传区域 -->
+            <div class="file-upload-section">
+                <h3>📁 上传学习资料</h3>
+                <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div class="file-upload-text">
+                        <strong>点击或拖拽文件到此处</strong><br>
+                        支持 PDF、PPT、DOC、TXT 等格式
+                    </div>
+                    <div class="file-types">最大文件大小：10MB</div>
+                </div>
+                <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.ppt,.pptx,.doc,.docx,.txt" onchange="handleFileUpload(event)">
+                
+                <div class="uploaded-files" id="uploadedFiles">
+                    <!-- 上传的文件列表将显示在这里 -->
+                </div>
             </div>
-            <h3>CSS样式设计进阶</h3>
-            <p>掌握CSS的高级技巧，包括Flexbox、Grid布局、动画效果和响应式设计。</p>
-            <button class="btn btn-primary">开始学习</button>
-        </div>
-        
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 4小时</span>
-                <span class="course-level">高级</span>
+            
+            <!-- AI功能说明 -->
+            <div class="ai-features">
+                <h3>✨ AI功能</h3>
+                <div class="feature-item">
+                    <span class="feature-icon">📝</span>
+                    <span class="feature-text">智能总结文档要点</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📚</span>
+                    <span class="feature-text">生成学习笔记</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">❓</span>
+                    <span class="feature-text">创建练习题</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💡</span>
+                    <span class="feature-text">解答学习疑问</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <span class="feature-text">个性化学习建议</span>
+                </div>
             </div>
-            <h3>React框架实战</h3>
-            <p>深入学习React框架，包括组件开发、状态管理、路由配置和性能优化。</p>
-            <button class="btn btn-primary">开始学习</button>
-        </div>
-        
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 2.5小时</span>
-                <span class="course-level">初级</span>
-            </div>
-            <h3>HTML5新特性</h3>
-            <p>了解HTML5的新标签、API和特性，提升网页开发效率。</p>
-            <button class="btn btn-primary">开始学习</button>
-        </div>
-        
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 5小时</span>
-                <span class="course-level">高级</span>
-            </div>
-            <h3>Node.js后端开发</h3>
-            <p>学习使用Node.js构建后端服务，包括Express框架、数据库操作和API设计。</p>
-            <button class="btn btn-primary">开始学习</button>
-        </div>
-        
-        <div class="course-card">
-            <div class="course-meta">
-                <span class="course-duration">⏱️ 3.5小时</span>
-                <span class="course-level">中级</span>
-            </div>
-            <h3>Vue.js组件开发</h3>
-            <p>掌握Vue.js框架的使用，学习组件化开发和单页应用构建。</p>
-            <button class="btn btn-primary">开始学习</button>
         </div>
     </div>
+
+    <script>
+        // 聊天功能
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // 添加用户消息
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // 模拟AI回复
+            setTimeout(() => {
+                const aiResponse = generateAIResponse(message);
+                addMessage(aiResponse, 'ai');
+            }, 1000);
+        }
+        
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = content;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function generateAIResponse(userMessage) {
+            const responses = [
+                "根据您上传的资料，我为您总结了以下要点：\n\n1. 核心概念解释\n2. 重要知识点梳理\n3. 实际应用案例\n\n需要我为您生成练习题吗？",
+                "我已经分析了您的文档，主要包含以下几个部分：\n\n• 基础理论\n• 实践操作\n• 案例分析\n\n您希望我重点讲解哪个部分？",
+                "基于您的学习资料，我为您生成了以下学习建议：\n\n📖 建议学习顺序\n🎯 重点掌握内容\n💡 学习技巧分享\n\n还有什么问题需要我帮助解答吗？",
+                "我已经为您整理了学习笔记，包含：\n\n✅ 知识点总结\n📋 重要公式/概念\n🔍 易错点提醒\n\n需要我根据这些内容出一些练习题吗？"
+            ];
+            
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // 文件上传功能
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            const uploadedFilesContainer = document.getElementById('uploadedFiles');
+            
+            for (let file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('文件大小不能超过10MB');
+                    continue;
+                }
+                
+                addFileToList(file, uploadedFilesContainer);
+            }
+        }
+        
+        function addFileToList(file, container) {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            
+            const fileIcon = getFileIcon(file.name);
+            const fileName = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+            
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <span class="file-icon">${fileIcon}</span>
+                    <span class="file-name">${fileName}</span>
+                </div>
+                <div class="file-actions">
+                    <button class="btn btn-small btn-primary" onclick="analyzeFile('${file.name}')">分析</button>
+                    <button class="btn btn-small btn-danger" onclick="removeFile(this)">删除</button>
+                </div>
+            `;
+            
+            container.appendChild(fileItem);
+        }
+        
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            const icons = {
+                'pdf': '📄',
+                'ppt': '📊',
+                'pptx': '📊',
+                'doc': '📝',
+                'docx': '📝',
+                'txt': '📄'
+            };
+            return icons[extension] || '📄';
+        }
+        
+        function analyzeFile(fileName) {
+            addMessage(`正在分析文件：${fileName}，请稍候...`, 'ai');
+            
+            setTimeout(() => {
+                addMessage(`✅ 文件分析完成！\n\n📋 主要内容：\n• 文档结构清晰\n• 包含重要概念\n• 有实际案例\n\n💡 建议：重点关注第2-4章节的核心内容。需要我为您生成详细的学习笔记吗？`, 'ai');
+            }, 2000);
+        }
+        
+        function removeFile(button) {
+            button.closest('.file-item').remove();
+        }
+        
+        // 其他功能
+        function clearChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = `
+                <div class="welcome-message">
+                    您好！我是您的AI学习助手。您可以上传PDF、PPT等学习资料，我会帮您总结要点、生成笔记和习题。有什么问题随时问我！
+                </div>
+            `;
+        }
+        
+        function exportNotes() {
+            const messages = document.querySelectorAll('.message.ai');
+            let notes = 'AI学习笔记\n\n';
+            
+            messages.forEach((message, index) => {
+                notes += `${index + 1}. ${message.textContent}\n\n`;
+            });
+            
+            const blob = new Blob([notes], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '学习笔记.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // 拖拽上传
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            const uploadedFilesContainer = document.getElementById('uploadedFiles');
+            
+            for (let file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('文件大小不能超过10MB');
+                    continue;
+                }
+                
+                addFileToList(file, uploadedFilesContainer);
+            }
+        });
+        
+        // 输入框自动调整高度
+        const chatInput = document.getElementById('chatInput');
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+        
+        // 回车发送消息
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>
