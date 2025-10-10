@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公告通知</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+        .announcement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .announcement-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .announcement-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .announcement-title {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .announcement-date {
+            color: #6b7280;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .announcement-content {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .announcement-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .announcement-author {
+            color: #6b7280;
+            font-size: 12px;
+        }
+        .announcement-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .priority-high {
+            border-left: 4px solid #dc2626;
+        }
+        .priority-medium {
+            border-left: 4px solid #f59e0b;
+        }
+        .priority-low {
+            border-left: 4px solid #10b981;
+        }
+        .priority-label {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .priority-high .priority-label {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+        .priority-medium .priority-label {
+            background-color: #fffbeb;
+            color: #f59e0b;
+        }
+        .priority-low .priority-label {
+            background-color: #ecfdf5;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>公告通知</h1>
+        <button class="btn btn-primary">发布公告</button>
+    </div>
+    
+    <div class="announcement-list">
+        <div class="announcement-item priority-high">
+            <div class="announcement-header">
+                <h3 class="announcement-title">
+                    系统维护通知
+                    <span class="priority-label">紧急</span>
+                </h3>
+                <span class="announcement-date">2024-01-20 14:30</span>
+            </div>
+            <div class="announcement-content">
+                系统将于今晚22:00-24:00进行例行维护，期间可能影响部分功能使用。请提前保存您的工作内容，给您带来的不便敬请谅解。
+            </div>
+            <div class="announcement-footer">
+                <span class="announcement-author">发布人：系统管理员</span>
+                <div class="announcement-actions">
+                    <button class="btn btn-sm btn-secondary">编辑</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="announcement-item priority-medium">
+            <div class="announcement-header">
+                <h3 class="announcement-title">
+                    新课程上线通知
+                    <span class="priority-label">重要</span>
+                </h3>
+                <span class="announcement-date">2024-01-19 10:15</span>
+            </div>
+            <div class="announcement-content">
+                我们很高兴地宣布，新的React高级课程已经上线！本课程将深入讲解React Hooks、Context API、性能优化等高级主题，适合有一定React基础的学员学习。
+            </div>
+            <div class="announcement-footer">
+                <span class="announcement-author">发布人：课程管理员</span>
+                <div class="announcement-actions">
+                    <button class="btn btn-sm btn-secondary">编辑</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="announcement-item priority-low">
+            <div class="announcement-header">
+                <h3 class="announcement-title">
+                    用户反馈收集
+                    <span class="priority-label">一般</span>
+                </h3>
+                <span class="announcement-date">2024-01-18 16:20</span>
+            </div>
+            <div class="announcement-content">
+                为了更好地改进我们的服务，现向所有用户收集使用反馈。请通过平台内的反馈功能或发送邮件至feedback@example.com提交您的宝贵意见。
+            </div>
+            <div class="announcement-footer">
+                <span class="announcement-author">发布人：产品经理</span>
+                <div class="announcement-actions">
+                    <button class="btn btn-sm btn-secondary">编辑</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="announcement-item priority-medium">
+            <div class="announcement-header">
+                <h3 class="announcement-title">
+                    春节假期安排
+                    <span class="priority-label">重要</span>
+                </h3>
+                <span class="announcement-date">2024-01-17 09:00</span>
+            </div>
+            <div class="announcement-content">
+                根据国家法定节假日安排，平台将于2月10日-2月17日暂停人工客服服务，但系统功能正常使用。如有紧急问题，请发送邮件至support@example.com。
+            </div>
+            <div class="announcement-footer">
+                <span class="announcement-author">发布人：客服主管</span>
+                <div class="announcement-actions">
+                    <button class="btn btn-sm btn-secondary">编辑</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="announcement-item priority-low">
+            <div class="announcement-header">
+                <h3 class="announcement-title">
+                    平台使用指南更新
+                    <span class="priority-label">一般</span>
+                </h3>
+                <span class="announcement-date">2024-01-16 14:45</span>
+            </div>
+            <div class="announcement-content">
+                我们更新了平台使用指南，新增了移动端使用说明和常见问题解答。您可以在帮助中心查看最新的使用指南。
+            </div>
+            <div class="announcement-footer">
+                <span class="announcement-author">发布人：技术支持</span>
+                <div class="announcement-actions">
+                    <button class="btn btn-sm btn-secondary">编辑</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

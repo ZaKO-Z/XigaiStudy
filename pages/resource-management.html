@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源管理</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+        .resource-list {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.3s ease;
+        }
+        .resource-item:hover {
+            background-color: #f9fafb;
+        }
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+        .resource-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 40px;
+            text-align: center;
+        }
+        .resource-info {
+            flex: 1;
+        }
+        .resource-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        .resource-meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .resource-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+        .upload-icon {
+            font-size: 48px;
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+        .upload-text {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        .upload-hint {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>资源管理</h1>
+        <button class="btn btn-primary">上传资源</button>
+    </div>
+    
+    <div class="upload-area">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">拖拽文件到此处或点击上传</div>
+        <div class="upload-hint">支持 PDF, DOC, PPT, XLS, 图片等格式</div>
+    </div>
+    
+    <div class="resource-list">
+        <div class="resource-item">
+            <div class="resource-icon">📄</div>
+            <div class="resource-info">
+                <div class="resource-name">JavaScript学习指南.pdf</div>
+                <div class="resource-meta">大小: 2.5MB | 上传时间: 2024-01-15 10:30</div>
+            </div>
+            <div class="resource-actions">
+                <button class="btn btn-sm btn-secondary">预览</button>
+                <button class="btn btn-sm btn-primary">下载</button>
+                <button class="btn btn-sm btn-danger">删除</button>
+            </div>
+        </div>
+        
+        <div class="resource-item">
+            <div class="resource-icon">📊</div>
+            <div class="resource-info">
+                <div class="resource-name">课程进度统计.xlsx</div>
+                <div class="resource-meta">大小: 1.2MB | 上传时间: 2024-01-16 14:20</div>
+            </div>
+            <div class="resource-actions">
+                <button class="btn btn-sm btn-secondary">预览</button>
+                <button class="btn btn-sm btn-primary">下载</button>
+                <button class="btn btn-sm btn-danger">删除</button>
+            </div>
+        </div>
+        
+        <div class="resource-item">
+            <div class="resource-icon">🖼️</div>
+            <div class="resource-info">
+                <div class="resource-name">UI设计规范.png</div>
+                <div class="resource-meta">大小: 3.8MB | 上传时间: 2024-01-17 09:15</div>
+            </div>
+            <div class="resource-actions">
+                <button class="btn btn-sm btn-secondary">预览</button>
+                <button class="btn btn-sm btn-primary">下载</button>
+                <button class="btn btn-sm btn-danger">删除</button>
+            </div>
+        </div>
+        
+        <div class="resource-item">
+            <div class="resource-icon">📝</div>
+            <div class="resource-info">
+                <div class="resource-name">项目需求文档.docx</div>
+                <div class="resource-meta">大小: 856KB | 上传时间: 2024-01-18 16:45</div>
+            </div>
+            <div class="resource-actions">
+                <button class="btn btn-sm btn-secondary">预览</button>
+                <button class="btn btn-sm btn-primary">下载</button>
+                <button class="btn btn-sm btn-danger">删除</button>
+            </div>
+        </div>
+        
+        <div class="resource-item">
+            <div class="resource-icon">🎥</div>
+            <div class="resource-info">
+                <div class="resource-name">React教程视频.mp4</div>
+                <div class="resource-meta">大小: 125MB | 上传时间: 2024-01-19 11:30</div>
+            </div>
+            <div class="resource-actions">
+                <button class="btn btn-sm btn-secondary">预览</button>
+                <button class="btn btn-sm btn-primary">下载</button>
+                <button class="btn btn-sm btn-danger">删除</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

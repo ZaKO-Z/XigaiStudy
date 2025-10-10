@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程学习</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .course-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .course-card h3 {
+            color: #1f2937;
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        .course-card p {
+            color: #6b7280;
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+        }
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .course-duration {
+            color: #6b7280;
+            font-size: 12px;
+        }
+        .course-level {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>课程学习</h1>
+        <div class="search-box">
+            <input type="text" placeholder="搜索课程..." class="search-input">
+            <button class="btn btn-primary">搜索</button>
+        </div>
+    </div>
+    
+    <div class="course-grid">
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 2小时</span>
+                <span class="course-level">初级</span>
+            </div>
+            <h3>JavaScript基础入门</h3>
+            <p>学习JavaScript的基本语法、变量、函数和对象等核心概念，为后续学习打下坚实基础。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 3小时</span>
+                <span class="course-level">中级</span>
+            </div>
+            <h3>CSS样式设计进阶</h3>
+            <p>掌握CSS的高级技巧，包括Flexbox、Grid布局、动画效果和响应式设计。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 4小时</span>
+                <span class="course-level">高级</span>
+            </div>
+            <h3>React框架实战</h3>
+            <p>深入学习React框架，包括组件开发、状态管理、路由配置和性能优化。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 2.5小时</span>
+                <span class="course-level">初级</span>
+            </div>
+            <h3>HTML5新特性</h3>
+            <p>了解HTML5的新标签、API和特性，提升网页开发效率。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 5小时</span>
+                <span class="course-level">高级</span>
+            </div>
+            <h3>Node.js后端开发</h3>
+            <p>学习使用Node.js构建后端服务，包括Express框架、数据库操作和API设计。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-meta">
+                <span class="course-duration">⏱️ 3.5小时</span>
+                <span class="course-level">中级</span>
+            </div>
+            <h3>Vue.js组件开发</h3>
+            <p>掌握Vue.js框架的使用，学习组件化开发和单页应用构建。</p>
+            <button class="btn btn-primary">开始学习</button>
+        </div>
+    </div>
+</body>
+</html>

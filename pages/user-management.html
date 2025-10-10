@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .user-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+        .status-active {
+            color: #059669;
+            font-weight: 500;
+        }
+        .status-inactive {
+            color: #dc2626;
+            font-weight: 500;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>用户管理</h1>
+        <button class="btn btn-primary">添加用户</button>
+    </div>
+    
+    <div class="user-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>角色</th>
+                    <th>状态</th>
+                    <th>注册时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>张三</td>
+                    <td>zhangsan@example.com</td>
+                    <td>管理员</td>
+                    <td><span class="status-active">活跃</span></td>
+                    <td>2024-01-15</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary">编辑</button>
+                        <button class="btn btn-sm btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>李四</td>
+                    <td>lisi@example.com</td>
+                    <td>普通用户</td>
+                    <td><span class="status-active">活跃</span></td>
+                    <td>2024-01-16</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary">编辑</button>
+                        <button class="btn btn-sm btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>王五</td>
+                    <td>wangwu@example.com</td>
+                    <td>普通用户</td>
+                    <td><span class="status-inactive">禁用</span></td>
+                    <td>2024-01-17</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary">编辑</button>
+                        <button class="btn btn-sm btn-danger">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

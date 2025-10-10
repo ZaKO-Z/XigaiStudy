@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI辅助学习平台</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>AI辅助学习平台</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="user-management">
+                    <div class="nav-icon">👤</div>
+                    <span>用户管理</span>
+                </li>
+                <li class="nav-item" data-page="course-learning">
+                    <div class="nav-icon">📚</div>
+                    <span>课程学习</span>
+                </li>
+                <li class="nav-item" data-page="resource-management">
+                    <div class="nav-icon">📁</div>
+                    <span>资源管理</span>
+                </li>
+                <li class="nav-item" data-page="announcements">
+                    <div class="nav-icon">📢</div>
+                    <span>公告通知</span>
+                </li>
+                <li class="nav-item" data-page="interactive-communication">
+                    <div class="nav-icon">💬</div>
+                    <span>互动交流</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="content-area">
+                <div class="page-title">
+                    <h2 id="page-title">用户管理</h2>
+                </div>
+                <div class="page-content">
+                    <!-- 使用iframe加载不同的HTML页面 -->
+                    <iframe id="page-frame" src="pages/user-management.html" frameborder="0"></iframe>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
