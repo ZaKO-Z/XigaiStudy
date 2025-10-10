@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源浏览</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .resource-list {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.3s ease;
+        }
+        .resource-item:hover {
+            background-color: #f9fafb;
+        }
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+        .resource-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 40px;
+            text-align: center;
+        }
+        .resource-info {
+            flex: 1;
+        }
+        .resource-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        .resource-meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .resource-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .no-resource {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>资源浏览</h1>
+    </div>
+
+    <div class="resource-list" id="resourceList">
+        <div class="no-resource">加载中...</div>
+    </div>
+
+    <script>
+        // 模拟资源类型
+        const fileTypes = [
+            {icon: '📄', ext: 'pdf', name: '学习资料'},
+            {icon: '📝', ext: 'docx', name: '报告文档'},
+            {icon: '📊', ext: 'xlsx', name: '统计报表'},
+            {icon: '🎥', ext: 'mp4', name: '教学视频'},
+            {icon: '🖼️', ext: 'png', name: '设计图示'}
+        ];
+
+        const resourceList = document.getElementById('resourceList');
+
+        function generateRandomResource() {
+            const type = fileTypes[Math.floor(Math.random() * fileTypes.length)];
+            const size = (Math.random() * 80 + 0.5).toFixed(1);
+            const date = new Date(Date.now() - Math.random() * 1e10);
+            const dateStr = date.toISOString().slice(0, 19).replace('T', ' ');
+            return {
+                icon: type.icon,
+                name: `${type.name}_${Math.floor(Math.random() * 100)}.${type.ext}`,
+                size: `${size}MB`,
+                uploadTime: dateStr
+            };
+        }
+
+        function renderResourceItem(resource) {
+            const item = document.createElement('div');
+            item.className = 'resource-item';
+            item.innerHTML = `
+                <div class="resource-icon">${resource.icon}</div>
+                <div class="resource-info">
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-meta">大小: ${resource.size} | 上传时间: ${resource.uploadTime}</div>
+                </div>
+                <div class="resource-actions">
+                    <button class="btn btn-secondary">预览</button>
+                    <button class="btn btn-primary">下载</button>
+                </div>
+            `;
+            resourceList.appendChild(item);
+        }
+
+        // 加载模拟数据
+        function loadResources(count = 6) {
+            resourceList.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                renderResourceItem(generateRandomResource());
+            }
+        }
+
+        // 模拟异步加载
+        setTimeout(() => loadResources(), 500);
+    </script>
+</body>
+</html>
