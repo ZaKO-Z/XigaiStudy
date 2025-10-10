@@ -130,80 +130,92 @@
 <body>
     <div class="page-header">
         <h1>资源管理</h1>
-        <button class="btn btn-primary">上传资源</button>
+        <button class="btn btn-primary" id="uploadBtn">上传资源</button>
     </div>
     
-    <div class="upload-area">
+    <div class="upload-area" id="uploadArea">
         <div class="upload-icon">📁</div>
         <div class="upload-text">拖拽文件到此处或点击上传</div>
         <div class="upload-hint">支持 PDF, DOC, PPT, XLS, 图片等格式</div>
     </div>
     
-    <div class="resource-list">
-        <div class="resource-item">
-            <div class="resource-icon">📄</div>
-            <div class="resource-info">
-                <div class="resource-name">JavaScript学习指南.pdf</div>
-                <div class="resource-meta">大小: 2.5MB | 上传时间: 2024-01-15 10:30</div>
-            </div>
-            <div class="resource-actions">
-                <button class="btn btn-sm btn-secondary">预览</button>
-                <button class="btn btn-sm btn-primary">下载</button>
-                <button class="btn btn-sm btn-danger">删除</button>
-            </div>
-        </div>
-        
-        <div class="resource-item">
-            <div class="resource-icon">📊</div>
-            <div class="resource-info">
-                <div class="resource-name">课程进度统计.xlsx</div>
-                <div class="resource-meta">大小: 1.2MB | 上传时间: 2024-01-16 14:20</div>
-            </div>
-            <div class="resource-actions">
-                <button class="btn btn-sm btn-secondary">预览</button>
-                <button class="btn btn-sm btn-primary">下载</button>
-                <button class="btn btn-sm btn-danger">删除</button>
-            </div>
-        </div>
-        
-        <div class="resource-item">
-            <div class="resource-icon">🖼️</div>
-            <div class="resource-info">
-                <div class="resource-name">UI设计规范.png</div>
-                <div class="resource-meta">大小: 3.8MB | 上传时间: 2024-01-17 09:15</div>
-            </div>
-            <div class="resource-actions">
-                <button class="btn btn-sm btn-secondary">预览</button>
-                <button class="btn btn-sm btn-primary">下载</button>
-                <button class="btn btn-sm btn-danger">删除</button>
-            </div>
-        </div>
-        
-        <div class="resource-item">
-            <div class="resource-icon">📝</div>
-            <div class="resource-info">
-                <div class="resource-name">项目需求文档.docx</div>
-                <div class="resource-meta">大小: 856KB | 上传时间: 2024-01-18 16:45</div>
-            </div>
-            <div class="resource-actions">
-                <button class="btn btn-sm btn-secondary">预览</button>
-                <button class="btn btn-sm btn-primary">下载</button>
-                <button class="btn btn-sm btn-danger">删除</button>
-            </div>
-        </div>
-        
-        <div class="resource-item">
-            <div class="resource-icon">🎥</div>
-            <div class="resource-info">
-                <div class="resource-name">React教程视频.mp4</div>
-                <div class="resource-meta">大小: 125MB | 上传时间: 2024-01-19 11:30</div>
-            </div>
-            <div class="resource-actions">
-                <button class="btn btn-sm btn-secondary">预览</button>
-                <button class="btn btn-sm btn-primary">下载</button>
-                <button class="btn btn-sm btn-danger">删除</button>
-            </div>
-        </div>
-    </div>
+    <div class="resource-list" id="resourceList"></div>
+
+    <script>
+        // 随机生成模拟数据
+        const fileTypes = [
+            {icon: '📄', ext: 'pdf', name: '学习指南'},
+            {icon: '📝', ext: 'docx', name: '项目文档'},
+            {icon: '📊', ext: 'xlsx', name: '统计表'},
+            {icon: '🎥', ext: 'mp4', name: '教学视频'},
+            {icon: '🖼️', ext: 'png', name: 'UI设计'}
+        ];
+
+        const resourceList = document.getElementById('resourceList');
+
+        // 生成随机资源
+        function generateRandomResource() {
+            const type = fileTypes[Math.floor(Math.random() * fileTypes.length)];
+            const size = (Math.random() * 100 + 0.5).toFixed(1);
+            const date = new Date(Date.now() - Math.random() * 1e10);
+            const dateStr = date.toISOString().slice(0, 19).replace('T', ' ');
+            return {
+                icon: type.icon,
+                name: `${type.name}_${Math.floor(Math.random() * 100)}.${type.ext}`,
+                size: `${size}${type.ext === 'mp4' ? 'MB' : 'MB'}`,
+                uploadTime: dateStr
+            };
+        }
+
+        // 渲染资源项
+        function renderResourceItem(resource) {
+            const item = document.createElement('div');
+            item.className = 'resource-item';
+            item.innerHTML = `
+                <div class="resource-icon">${resource.icon}</div>
+                <div class="resource-info">
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-meta">大小: ${resource.size} | 上传时间: ${resource.uploadTime}</div>
+                </div>
+                <div class="resource-actions">
+                    <button class="btn btn-sm btn-secondary">预览</button>
+                    <button class="btn btn-sm btn-primary">下载</button>
+                    <button class="btn btn-sm btn-danger">删除</button>
+                </div>
+            `;
+            item.querySelector('.btn-danger').addEventListener('click', () => item.remove());
+            resourceList.appendChild(item);
+        }
+
+        // 初始加载一些假数据
+        for (let i = 0; i < 5; i++) {
+            renderResourceItem(generateRandomResource());
+        }
+
+        // 模拟上传按钮点击事件
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            const newResource = generateRandomResource();
+            renderResourceItem(newResource);
+        });
+
+        // 拖拽上传模拟
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.addEventListener('click', () => {
+            const newResource = generateRandomResource();
+            renderResourceItem(newResource);
+        });
+        uploadArea.addEventListener('dragover', e => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#2563eb';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#d1d5db';
+        });
+        uploadArea.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#d1d5db';
+            renderResourceItem(generateRandomResource());
+        });
+    </script>
 </body>
 </html>
