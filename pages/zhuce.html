@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录与注册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        
+        .container {
+            width: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .form-container {
+            padding: 40px;
+            transition: all 0.6s ease-in-out;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h2 {
+            font-size: 28px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #5a6fd1, #6a4299);
+            transform: translateY(-2px);
+        }
+        
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .switch-form a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-container {
+            display: block;
+        }
+        
+        .register-container {
+            display: none;
+        }
+        
+        .show-register .login-container {
+            display: none;
+        }
+        
+        .show-register .register-container {
+            display: block;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .terms {
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+        
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container login-container">
+            <div class="header">
+                <h2>欢迎回来</h2>
+                <p>登录您的账户继续</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">电子邮箱</label>
+                    <input type="email" id="login-email" placeholder="请输入您的邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">密码</label>
+                    <input type="password" id="login-password" placeholder="请输入您的密码" required>
+                    <span class="password-toggle">👁️</span>
+                </div>
+                <button type="submit" class="btn">登录</button>
+            </form>
+            <div class="switch-form">
+                还没有账户？<a id="show-register">立即注册</a>
+            </div>
+        </div>
+        
+        <div class="form-container register-container">
+            <div class="header">
+                <h2>创建账户</h2>
+                <p>加入我们，开始您的旅程</p>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="register-name">用户名</label>
+                    <input type="text" id="register-name" placeholder="请输入您的用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">电子邮箱</label>
+                    <input type="email" id="register-email" placeholder="请输入您的邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">密码</label>
+                    <input type="password" id="register-password" placeholder="请输入至少6位密码" required>
+                    <span class="password-toggle">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">确认密码</label>
+                    <input type="password" id="register-confirm" placeholder="请再次输入密码" required>
+                    <span class="password-toggle">👁️</span>
+                </div>
+                <button type="submit" class="btn">注册</button>
+            </form>
+            <div class="terms">
+                点击"注册"即表示您同意我们的<a href="#">服务条款</a>和<a href="#">隐私政策</a>
+            </div>
+            <div class="switch-form">
+                已有账户？<a id="show-login">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 切换登录和注册表单
+            const showRegister = document.getElementById('show-register');
+            const showLogin = document.getElementById('show-login');
+            
+            showRegister.addEventListener('click', function() {
+                document.querySelector('.container').classList.add('show-register');
+            });
+            
+            showLogin.addEventListener('click', function() {
+                document.querySelector('.container').classList.remove('show-register');
+            });
+            
+            // 密码显示/隐藏切换
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.textContent = '🙈';
+                    } else {
+                        input.type = 'password';
+                        this.textContent = '👁️';
+                    }
+                });
+            });
+            
+            // 阻止表单提交
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('登录功能仅为前端演示，无后端处理');
+            });
+            
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('注册功能仅为前端演示，无后端处理');
+            });
+        });
+    </script>
+</body>
+</html>
