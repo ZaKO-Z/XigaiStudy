@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>资源浏览</title>
+    <title>资源管理</title>
     <style>
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
@@ -23,6 +23,40 @@
             color: #1f2937;
             font-size: 24px;
             margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #b91c1c;
         }
         .resource-list {
             background: white;
@@ -65,70 +99,75 @@
             display: flex;
             gap: 5px;
         }
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fafafa;
             transition: all 0.3s ease;
         }
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
         }
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-        .btn-secondary {
-            background-color: #6b7280;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background-color: #4b5563;
-        }
-        .no-resource {
-            text-align: center;
-            padding: 40px;
+        .upload-icon {
+            font-size: 48px;
             color: #9ca3af;
-            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .upload-text {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+        .upload-hint {
+            font-size: 12px;
+            color: #9ca3af;
         }
     </style>
 </head>
 <body>
     <div class="page-header">
-        <h1>资源浏览</h1>
+        <h1>资源管理</h1>
+        <button class="btn btn-primary" id="uploadBtn">上传资源</button>
     </div>
-
-    <div class="resource-list" id="resourceList">
-        <div class="no-resource">加载中...</div>
+    
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">拖拽文件到此处或点击上传</div>
+        <div class="upload-hint">支持 PDF, DOC, PPT, XLS, 图片等格式</div>
     </div>
+    
+    <div class="resource-list" id="resourceList"></div>
 
     <script>
-        // 模拟资源类型
+        // 随机生成模拟数据
         const fileTypes = [
-            {icon: '📄', ext: 'pdf', name: '学习资料'},
-            {icon: '📝', ext: 'docx', name: '报告文档'},
-            {icon: '📊', ext: 'xlsx', name: '统计报表'},
+            {icon: '📄', ext: 'pdf', name: '学习指南'},
+            {icon: '📝', ext: 'docx', name: '项目文档'},
+            {icon: '📊', ext: 'xlsx', name: '统计表'},
             {icon: '🎥', ext: 'mp4', name: '教学视频'},
-            {icon: '🖼️', ext: 'png', name: '设计图示'}
+            {icon: '🖼️', ext: 'png', name: 'UI设计'}
         ];
 
         const resourceList = document.getElementById('resourceList');
 
+        // 生成随机资源
         function generateRandomResource() {
             const type = fileTypes[Math.floor(Math.random() * fileTypes.length)];
-            const size = (Math.random() * 80 + 0.5).toFixed(1);
+            const size = (Math.random() * 100 + 0.5).toFixed(1);
             const date = new Date(Date.now() - Math.random() * 1e10);
             const dateStr = date.toISOString().slice(0, 19).replace('T', ' ');
             return {
                 icon: type.icon,
                 name: `${type.name}_${Math.floor(Math.random() * 100)}.${type.ext}`,
-                size: `${size}MB`,
+                size: `${size}${type.ext === 'mp4' ? 'MB' : 'MB'}`,
                 uploadTime: dateStr
             };
         }
 
+        // 渲染资源项
         function renderResourceItem(resource) {
             const item = document.createElement('div');
             item.className = 'resource-item';
@@ -139,23 +178,43 @@
                     <div class="resource-meta">大小: ${resource.size} | 上传时间: ${resource.uploadTime}</div>
                 </div>
                 <div class="resource-actions">
-                    <button class="btn btn-secondary">预览</button>
-                    <button class="btn btn-primary">下载</button>
+                    <button class="btn btn-sm btn-secondary">预览</button>
+                    <button class="btn btn-sm btn-primary">下载</button>
                 </div>
             `;
+            item.querySelector('.btn-danger').addEventListener('click', () => item.remove());
             resourceList.appendChild(item);
         }
 
-        // 加载模拟数据
-        function loadResources(count = 6) {
-            resourceList.innerHTML = '';
-            for (let i = 0; i < count; i++) {
-                renderResourceItem(generateRandomResource());
-            }
+        // 初始加载一些假数据
+        for (let i = 0; i < 5; i++) {
+            renderResourceItem(generateRandomResource());
         }
 
-        // 模拟异步加载
-        setTimeout(() => loadResources(), 500);
+        // 模拟上传按钮点击事件
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            const newResource = generateRandomResource();
+            renderResourceItem(newResource);
+        });
+
+        // 拖拽上传模拟
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.addEventListener('click', () => {
+            const newResource = generateRandomResource();
+            renderResourceItem(newResource);
+        });
+        uploadArea.addEventListener('dragover', e => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#2563eb';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#d1d5db';
+        });
+        uploadArea.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#d1d5db';
+            renderResourceItem(generateRandomResource());
+        });
     </script>
 </body>
 </html>

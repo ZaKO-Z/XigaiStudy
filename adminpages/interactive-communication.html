@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互动交流｜习近平新时代中国特色社会主义思想概论</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .page-header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        .discussion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .discussion-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .discussion-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .discussion-title {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            cursor: pointer;
+        }
+        .discussion-title:hover {
+            color: #3b82f6;
+        }
+        .discussion-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .discussion-content {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .discussion-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .discussion-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .discussion-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .tag {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-right: 5px;
+        }
+        .tag-javascript {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        .tag-css {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+        .tag-react {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+        .tag-general {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .comment-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .comment-delete-btn {
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border: none;
+            border-radius: 3px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .comment-delete-btn:hover {
+            background-color: #dc2626;
+        }
+        .comment-author {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+        .comment-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .comment-content {
+            color: #4b5563;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .delete-btn {
+            background-color: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #dc2626;
+        }
+        .comments-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .comments-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>互动交流｜习近平新时代中国特色社会主义思想概论</h1>
+    </div>
+    
+    <div class="discussion-list">
+        <div class="discussion-item">
+            <div class="discussion-header">
+                <h3 class="discussion-title">如何系统把握本课程的核心要义？</h3>
+                <div class="discussion-meta">
+                    <span>2小时前</span>
+                    <span>•</span>
+                    <span>15回复</span>
+                </div>
+            </div>
+            <div class="discussion-content">
+                大家好，正在学习《习近平新时代中国特色社会主义思想概论》。想请教如何系统把握课程主线与知识框架，例如“两个结合”“六个必须坚持”“十个明确”“十四个坚持”“十三个方面成就”等，应如何理解其内在逻辑与实践指向？有没有高效的学习方法与资料推荐？
+            </div>
+            <div class="discussion-footer">
+                <div class="author-info">
+                    <div class="avatar">张</div>
+                    <span>张三</span>
+                </div>
+                <button class="delete-btn">删除</button>
+            </div>
+            <div class="comments-section">
+                <div class="comments-title">评论 (3)</div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">李老师</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">1小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">建议从"两个结合"入手，这是理解习近平新时代中国特色社会主义思想的关键。可以先梳理马克思主义基本原理与中国具体实际相结合、与中华优秀传统文化相结合的理论逻辑。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">王同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">30分钟前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">推荐阅读《习近平谈治国理政》第四卷，里面有很多生动的案例可以帮助理解理论内涵。另外可以关注"学习强国"平台的相关专题。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">陈同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">15分钟前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我觉得可以制作思维导图，把"十个明确"、"十四个坚持"、"十三个方面成就"的关系梳理清楚，这样更有助于系统把握。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="discussion-item">
+            <div class="discussion-header">
+                <h3 class="discussion-title">中国式现代化的本质要求与中国特色</h3>
+                <div class="discussion-meta">
+                    <span>5小时前</span>
+                    <span>•</span>
+                    <span>23回复</span>
+                </div>
+            </div>
+            <div class="discussion-content">
+                课程中强调中国式现代化在人口规模、共同富裕、物质文明与精神文明相协调、人和自然和谐共生、和平发展等方面的鲜明特征。大家如何理解其“本质要求”与“基本内涵”？在把握“两个结合”和“六个必须坚持”的视角下，有哪些案例能帮助我们更好地理解其理论创新与制度优势？
+            </div>
+            <div class="discussion-footer">
+                <div class="author-info">
+                    <div class="avatar">李</div>
+                    <span>李四</span>
+                </div>
+                <button class="delete-btn">删除</button>
+            </div>
+            <div class="comments-section">
+                <div class="comments-title">评论 (4)</div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">刘教授</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">3小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">中国式现代化的本质要求是坚持中国共产党领导，坚持中国特色社会主义。其基本内涵体现在人口规模巨大、全体人民共同富裕、物质文明和精神文明相协调、人与自然和谐共生、走和平发展道路这五个方面。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">周同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">2小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">可以结合"六个必须坚持"来理解，特别是坚持人民至上、坚持自信自立、坚持守正创新，这些原则在中国式现代化进程中都有具体体现。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">吴同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">1小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">推荐看看浙江"千万工程"的案例，这是中国式现代化在乡村振兴领域的生动实践，体现了人与自然和谐共生的理念。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">郑同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">45分钟前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我觉得共同富裕这个特征特别重要，它体现了社会主义的本质要求，也是中国式现代化区别于西方现代化的根本标志。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="discussion-item">
+            <div class="discussion-header">
+                <h3 class="discussion-title">青年如何在强国建设中担当作为？</h3>
+                <div class="discussion-meta">
+                    <span>1天前</span>
+                    <span>•</span>
+                    <span>12回复</span>
+                </div>
+            </div>
+            <div class="discussion-content">
+                结合课程关于坚持人民至上、坚持自信自立、坚持守正创新的要求，青年群体如何在科技自立自强、乡村振兴、绿色低碳发展、公共服务与社会治理等领域落实“学思用贯通、知信行统一”？欢迎分享你的实践案例与反思。
+            </div>
+            <div class="discussion-footer">
+                <div class="author-info">
+                    <div class="avatar">王</div>
+                    <span>王五</span>
+                </div>
+                <button class="delete-btn">删除</button>
+            </div>
+            <div class="comments-section">
+                <div class="comments-title">评论 (2)</div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">马同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">20小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">作为计算机专业的学生，我参与了学校的智慧农业项目，运用AI技术帮助农民提高产量。这让我深刻体会到"学思用贯通"的重要性，理论只有与实践结合才能真正发挥作用。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">黄同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">18小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我在家乡参与了垃圾分类志愿服务，通过宣传教育和实践操作，帮助村民树立环保意识。这让我理解了"坚持人民至上"不是空话，而是要在具体行动中体现。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="discussion-item">
+            <div class="discussion-header">
+                <h3 class="discussion-title">推进全过程人民民主与依法治国的关系</h3>
+                <div class="discussion-meta">
+                    <span>2天前</span>
+                    <span>•</span>
+                    <span>28回复</span>
+                </div>
+            </div>
+            <div class="discussion-content">
+                新时代坚持和发展全过程人民民主，与全面依法治国如何相互促进、相辅相成？在基层治理中，如何通过制度建设与程序保障，提升公众参与的有效性与法治化水平？有无可借鉴的地方实践案例？
+            </div>
+            <div class="discussion-footer">
+                <div class="author-info">
+                    <div class="avatar">赵</div>
+                    <span>赵六</span>
+                </div>
+                <button class="delete-btn">删除</button>
+            </div>
+            <div class="comments-section">
+                <div class="comments-title">评论 (5)</div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">徐教授</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">1天前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">全过程人民民主与依法治国是相互促进的关系。民主需要法治保障，法治需要民主监督。在基层治理中，可以通过完善村民议事制度、社区听证会等形式，让群众参与决策过程。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">何同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">22小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我家乡的"村民说事"制度很有特色，每月固定时间村民可以就村务公开、基础设施建设等问题提出意见和建议，村委会必须及时回应，这体现了全过程人民民主的实践。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">林同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">20小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">建议关注"枫桥经验"的创新发展，它很好地体现了在法治框架下推进基层民主治理的路径，通过人民调解、人民监督等方式实现矛盾不上交。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">韩同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">18小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我觉得关键是要建立有效的参与机制和反馈机制，让群众的意见能够真正影响决策，而不是流于形式。这需要完善相关法律法规。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">冯同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">16小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">可以借鉴一些发达地区的做法，比如建立数字化参与平台，让群众可以通过网络参与公共事务讨论，提高参与效率和覆盖面。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="discussion-item">
+            <div class="discussion-header">
+                <h3 class="discussion-title">高质量发展与新质生产力的培育</h3>
+                <div class="discussion-meta">
+                    <span>3天前</span>
+                    <span>•</span>
+                    <span>19回复</span>
+                </div>
+            </div>
+            <div class="discussion-content">
+                围绕构建现代化产业体系、推动经济实现质的有效提升和量的合理增长，如何理解创新在我国现代化建设全局中的核心地位？数字经济、实体经济深度融合与安全可控之间的平衡应怎样把握？欢迎分享观察与思考。
+            </div>
+            <div class="discussion-footer">
+                <div class="author-info">
+                    <div class="avatar">孙</div>
+                    <span>孙七</span>
+                </div>
+                <button class="delete-btn">删除</button>
+            </div>
+            <div class="comments-section">
+                <div class="comments-title">评论 (4)</div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">宋教授</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">2天前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">新质生产力是以科技创新为主导的生产力，关键在于实现科技自立自强。数字经济与实体经济深度融合是重要路径，但必须确保关键核心技术自主可控，避免"卡脖子"问题。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">梁同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">1天前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我关注到新能源汽车产业的发展，从电池技术到智能驾驶，中国企业在很多领域已经实现了从跟跑到并跑再到领跑的转变，这体现了新质生产力的培育成效。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">谢同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">20小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">建议关注人工智能、量子计算、生物技术等前沿领域的发展，这些是培育新质生产力的重要方向。同时要处理好发展与安全的关系，不能为了创新而忽视风险防控。</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">邓同学</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="comment-time">18小时前</span>
+                            <button class="comment-delete-btn">删除</button>
+                        </div>
+                    </div>
+                    <div class="comment-content">我觉得人才培养是关键，需要建立产学研深度融合的创新体系，让高校的科研成果能够快速转化为现实生产力。同时要营造良好的创新生态，鼓励试错和探索。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+
+    <script>
+    // 直接绑定删除按钮事件
+    document.addEventListener('DOMContentLoaded', function() {
+        // 绑定讨论删除按钮
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (confirm('确定要删除这个讨论吗？此操作不可撤销。')) {
+                    btn.closest('.discussion-item').remove();
+                }
+            });
+        });
+
+        // 绑定评论删除按钮
+        const commentDeleteButtons = document.querySelectorAll('.comment-delete-btn');
+        commentDeleteButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (confirm('确定要删除这条评论吗？此操作不可撤销。')) {
+                    const commentItem = btn.closest('.comment-item');
+                    commentItem.remove();
+                    
+                    // 更新评论数量
+                    const commentsSection = commentItem.closest('.comments-section');
+                    const commentsTitle = commentsSection.querySelector('.comments-title');
+                    const currentCount = parseInt(commentsTitle.textContent.match(/\d+/)[0]) || 0;
+                    commentsTitle.textContent = `评论 (${currentCount - 1})`;
+                }
+            });
+        });
+    });
+
+    (function() {
+        const discussionList = document.querySelector('.discussion-list');
+        const modal = document.getElementById('discussion-modal');
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const resetFormBtn = document.getElementById('reset-form-btn');
+        const form = document.getElementById('discussion-form');
+        const titleInput = document.getElementById('title-input');
+        const contentInput = document.getElementById('content-input');
+
+        // 打开/关闭弹窗
+        function openModal() { modal.style.display = 'flex'; }
+        function closeModal() { modal.style.display = 'none'; }
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        // 清空表单
+        resetFormBtn.addEventListener('click', function() {
+            form.reset();
+        });
+
+        // 构建讨论项 DOM
+        function createDiscussionItem({ title, content, author = '新', authorName = '新同学', minutesAgo = '刚刚' }) {
+            const item = document.createElement('div');
+            item.className = 'discussion-item';
+            item.innerHTML = `
+                <div class="discussion-header">
+                    <h3 class="discussion-title"></h3>
+                    <div class="discussion-meta">
+                        <span>${minutesAgo}</span>
+                        <span>•</span>
+                        <span class="reply-count">0回复</span>
+                    </div>
+                </div>
+                <div class="discussion-content"></div>
+                <div class="discussion-footer">
+                    <div class="author-info">
+                        <div class="avatar">${author}</div>
+                        <span>${authorName}</span>
+                    </div>
+                </div>
+                <div class="reply-box" style="display:none; margin-top:10px;">
+                    <div style="display:flex; gap:8px;">
+                        <input class="reply-input" type="text" placeholder="写下你的回复..." style="flex:1; padding:8px 10px; border:1px solid #e5e7eb; border-radius:6px; font-size:14px;" />
+                        <button class="btn btn-primary btn-sm submit-reply-btn">发送</button>
+                    </div>
+                    <div class="reply-list" style="margin-top:10px; display:flex; flex-direction:column; gap:8px;"></div>
+                </div>
+            `;
+            item.querySelector('.discussion-title').textContent = title;
+            item.querySelector('.discussion-content').textContent = content;
+            wireInteractions(item);
+            return item;
+        }
+
+        // 绑定点赞与回复事件
+        function wireInteractions(root) {
+            const likeBtn = root.querySelector('.like-btn');
+            const likeCountEl = root.querySelector('.like-count');
+            const replyToggleBtn = root.querySelector('.reply-toggle-btn');
+            const replyBox = root.querySelector('.reply-box');
+            const submitReplyBtn = root.querySelector('.submit-reply-btn');
+            const replyInput = root.querySelector('.reply-input');
+            const replyList = root.querySelector('.reply-list');
+            const replyNum = root.querySelector('.reply-num');
+            const replyCountText = root.querySelector('.reply-count');
+            const deleteBtn = root.querySelector('.delete-btn');
+
+            // 点赞防重复：基于会话内记忆（元素标记）
+            if (likeBtn) {
+                likeBtn.addEventListener('click', function() {
+                    if (likeBtn.dataset.liked === '1') return; // 防重复
+                    likeBtn.dataset.liked = '1';
+                    likeBtn.classList.add('btn-primary');
+                    const current = parseInt(likeCountEl.textContent || '0', 10) || 0;
+                    likeCountEl.textContent = String(current + 1);
+                });
+            }
+
+            // 展开/收起回复框
+            if (replyToggleBtn) {
+                replyToggleBtn.addEventListener('click', function() {
+                    replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
+                    if (replyBox.style.display === 'block') {
+                        replyInput.focus();
+                    }
+                });
+            }
+
+            // 提交回复
+            if (submitReplyBtn) {
+                submitReplyBtn.addEventListener('click', function() {
+                    const text = (replyInput.value || '').trim();
+                    if (!text) return;
+                    const row = document.createElement('div');
+                    row.style.background = '#f9fafb';
+                    row.style.border = '1px solid #eef2f7';
+                    row.style.borderRadius = '6px';
+                    row.style.padding = '8px 10px';
+                    row.textContent = text;
+                    replyList.appendChild(row);
+                    replyInput.value = '';
+                    const current = parseInt(replyNum.textContent || '0', 10) || 0;
+                    replyNum.textContent = String(current + 1);
+                    replyCountText.textContent = `${current + 1}回复`;
+                });
+            }
+
+            // 删除讨论项
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm('确定要删除这个讨论吗？此操作不可撤销。')) {
+                        root.remove();
+                    }
+                });
+            }
+        }
+
+        // 为现有讨论项补充交互按钮
+        function enhanceExistingDiscussions() {
+            const items = document.querySelectorAll('.discussion-item');
+            items.forEach(function(item) {
+                if (item.dataset.enhanced === '1') return;
+                item.dataset.enhanced = '1';
+                
+                // 为所有讨论项绑定删除按钮事件
+                const deleteBtn = item.querySelector('.delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function() {
+                        if (confirm('确定要删除这个讨论吗？此操作不可撤销。')) {
+                            item.remove();
+                        }
+                    });
+                }
+                
+                const stats = item.querySelector('.discussion-stats');
+                const meta = item.querySelector('.discussion-meta');
+                if (!stats) return;
+
+                // 读取已有点赞/回复数量（若存在）
+                const likeNumEl = document.createElement('span');
+                likeNumEl.className = 'like-count';
+                likeNumEl.textContent = (function() {
+                    const node = stats.querySelector('.stat-item:nth-child(1) span:nth-child(2)');
+                    return node ? node.textContent : '0';
+                })();
+
+                const replyNumEl = document.createElement('span');
+                replyNumEl.className = 'reply-num';
+                replyNumEl.textContent = (function() {
+                    const node = stats.querySelector('.stat-item:nth-child(2) span:nth-child(2)');
+                    return node ? node.textContent : '0';
+                })();
+
+                // 清空原统计区，重建为可交互结构
+                stats.innerHTML = '';
+
+                // 创建点赞按钮和统计
+                const likeWrap = document.createElement('div');
+                likeWrap.className = 'stat-item';
+                likeWrap.innerHTML = `
+                    <button class="btn btn-sm like-btn">👍</button>
+                    <span class="like-count">${likeNumEl.textContent}</span>
+                `;
+
+                // 创建回复按钮和统计
+                const replyWrap = document.createElement('div');
+                replyWrap.className = 'stat-item';
+                replyWrap.innerHTML = `
+                    <button class="btn btn-sm reply-toggle-btn">💬</button>
+                    <span class="reply-num">${replyNumEl.textContent}</span>
+                `;
+
+                stats.appendChild(likeWrap);
+                stats.appendChild(replyWrap);
+
+                // 在 meta 中维护一个“X回复”文本
+                const replyCountText = document.createElement('span');
+                replyCountText.className = 'reply-count';
+                replyCountText.textContent = `${replyNumEl.textContent}回复`;
+                const dot = document.createElement('span');
+                dot.textContent = '•';
+                // 若 meta 已经有“• 15回复”结构，则替换为：时间 • X回复
+                meta.innerHTML = `${meta.children[0]?.outerHTML || '<span>刚刚</span>'}`;
+                meta.appendChild(document.createElement('span')).textContent = '•';
+                meta.appendChild(replyCountText);
+
+                // 追加回复区域
+                const replyBox = document.createElement('div');
+                replyBox.className = 'reply-box';
+                replyBox.style.display = 'none';
+                replyBox.style.marginTop = '10px';
+                replyBox.innerHTML = `
+                    <div style="display:flex; gap:8px;">
+                        <input class="reply-input" type="text" placeholder="写下你的回复..." style="flex:1; padding:8px 10px; border:1px solid #e5e7eb; border-radius:6px; font-size:14px;" />
+                        <button class="btn btn-primary btn-sm submit-reply-btn">发送</button>
+                    </div>
+                    <div class="reply-list" style="margin-top:10px; display:flex; flex-direction:column; gap:8px;"></div>
+                `;
+                item.appendChild(replyBox);
+
+                // 绑定交互
+                wireInteractions(item);
+            });
+        }
+
+        enhanceExistingDiscussions();
+
+        // 提交创建新讨论
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = (titleInput.value || '').trim();
+            const content = (contentInput.value || '').trim();
+            if (!title || !content) return;
+            const newItem = createDiscussionItem({ title, content });
+            discussionList.prepend(newItem);
+            form.reset();
+            closeModal();
+        });
+    })();
+    </script>
+</body>
+</html>

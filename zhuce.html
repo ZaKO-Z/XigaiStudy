@@ -240,15 +240,73 @@
                 });
             });
             
-            // 阻止表单提交
+            // 初始化本地存储的账户数据
+            if (!localStorage.getItem('accounts')) {
+                const defaultAccounts = [
+                    { username: 'admin', email: 'admin@example.com', password: '123456', role: 'admin' },
+                    { username: 'user', email: 'user@example.com', password: '123456', role: 'user' }
+                ];
+                localStorage.setItem('accounts', JSON.stringify(defaultAccounts));
+            }
+            
+            // 登录表单提交
             document.getElementById('loginForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('登录功能仅为前端演示，无后端处理');
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                const accounts = JSON.parse(localStorage.getItem('accounts'));
+                const user = accounts.find(acc => acc.email === email && acc.password === password);
+                
+                if (user) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    alert('登录成功！即将跳转到主页');
+                    window.location.href = 'index.html';
+                } else {
+                    alert('邮箱或密码错误，请重试');
+                }
             });
             
+            // 注册表单提交
             document.getElementById('registerForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('注册功能仅为前端演示，无后端处理');
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirm = document.getElementById('register-confirm').value;
+                
+                // 验证密码长度
+                if (password.length < 6) {
+                    alert('密码长度至少需要6位字符');
+                    return;
+                }
+                
+                // 验证两次密码是否一致
+                if (password !== confirm) {
+                    alert('两次输入的密码不一致');
+                    return;
+                }
+                
+                const accounts = JSON.parse(localStorage.getItem('accounts'));
+                
+                // 检查邮箱是否已注册
+                if (accounts.find(acc => acc.email === email)) {
+                    alert('该邮箱已被注册');
+                    return;
+                }
+                
+                // 添加新账户
+                const newAccount = {
+                    username: name,
+                    email: email,
+                    password: password,
+                    role: 'user'
+                };
+                accounts.push(newAccount);
+                localStorage.setItem('accounts', JSON.stringify(accounts));
+                
+                alert('注册成功！请登录');
+                document.querySelector('.container').classList.remove('show-register');
             });
         });
     </script>

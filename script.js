@@ -11,7 +11,7 @@ const pageTitles = {
 const pageFiles = {
     'user-management': 'pages/user-management.html',
     'course-learning': 'pages/course-learning.html',
-    'resource-management': 'pages/resource-management.html',
+    'resource-management': 'pages/resource-management_user.html',
     'announcements': 'pages/announcements.html',
     'interactive-communication': 'pages/interactive-communication.html'
 };
