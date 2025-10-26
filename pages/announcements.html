@@ -58,6 +58,13 @@
         .btn-danger:hover {
             background-color: #b91c1c;
         }
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+        }
         .announcement-list {
             display: flex;
             flex-direction: column;
@@ -137,114 +144,476 @@
             background-color: #ecfdf5;
             color: #10b981;
         }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #1f2937;
+            font-size: 20px;
+        }
+        
+        .close {
+            color: #9ca3af;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #374151;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-control[type="text"] {
+            font-size: 16px;
+        }
+        
+        .form-control[type="textarea"] {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-control[type="select"] {
+            cursor: pointer;
+        }
+        
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .no-announcements {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+            font-size: 16px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
     </style>
 </head>
 <body>
     <div class="page-header">
         <h1>公告通知</h1>
-        <button class="btn btn-primary">发布公告</button>
+        <button class="btn btn-primary" onclick="openAnnouncementModal()">发布公告</button>
     </div>
     
-    <div class="announcement-list">
-        <div class="announcement-item priority-high">
-            <div class="announcement-header">
-                <h3 class="announcement-title">
-                    系统维护通知
-                    <span class="priority-label">紧急</span>
-                </h3>
-                <span class="announcement-date">2024-01-20 14:30</span>
+    <div class="announcement-list" id="announcementList">
+        <div class="loading">加载中...</div>
+    </div>
+
+    <!-- 公告编辑/发布模态框 -->
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">发布公告</h2>
+                <span class="close" onclick="closeAnnouncementModal()">&times;</span>
             </div>
-            <div class="announcement-content">
-                系统将于今晚22:00-24:00进行例行维护，期间可能影响部分功能使用。请提前保存您的工作内容，给您带来的不便敬请谅解。
+            <div class="modal-body">
+                <form id="announcementForm">
+                    <div class="form-group">
+                        <label for="announcementTitle">公告标题 *</label>
+                        <input type="text" id="announcementTitle" class="form-control" placeholder="请输入公告标题" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementContent">公告内容 *</label>
+                        <textarea id="announcementContent" class="form-control" placeholder="请输入公告内容" required style="min-height: 120px; resize: vertical;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementPriority">优先级</label>
+                        <select id="announcementPriority" class="form-control">
+                            <option value="low">一般</option>
+                            <option value="medium">重要</option>
+                            <option value="high">紧急</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementAuthor">发布人</label>
+                        <input type="text" id="announcementAuthor" class="form-control" placeholder="请输入发布人姓名" value="系统管理员">
+                    </div>
+                </form>
             </div>
-            <div class="announcement-footer">
-                <span class="announcement-author">发布人：系统管理员</span>
-                <div class="announcement-actions">
-                    <button class="btn btn-sm btn-secondary">编辑</button>
-                    <button class="btn btn-sm btn-danger">删除</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="announcement-item priority-medium">
-            <div class="announcement-header">
-                <h3 class="announcement-title">
-                    新课程上线通知
-                    <span class="priority-label">重要</span>
-                </h3>
-                <span class="announcement-date">2024-01-19 10:15</span>
-            </div>
-            <div class="announcement-content">
-                我们很高兴地宣布，新的React高级课程已经上线！本课程将深入讲解React Hooks、Context API、性能优化等高级主题，适合有一定React基础的学员学习。
-            </div>
-            <div class="announcement-footer">
-                <span class="announcement-author">发布人：课程管理员</span>
-                <div class="announcement-actions">
-                    <button class="btn btn-sm btn-secondary">编辑</button>
-                    <button class="btn btn-sm btn-danger">删除</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="announcement-item priority-low">
-            <div class="announcement-header">
-                <h3 class="announcement-title">
-                    用户反馈收集
-                    <span class="priority-label">一般</span>
-                </h3>
-                <span class="announcement-date">2024-01-18 16:20</span>
-            </div>
-            <div class="announcement-content">
-                为了更好地改进我们的服务，现向所有用户收集使用反馈。请通过平台内的反馈功能或发送邮件至feedback@example.com提交您的宝贵意见。
-            </div>
-            <div class="announcement-footer">
-                <span class="announcement-author">发布人：产品经理</span>
-                <div class="announcement-actions">
-                    <button class="btn btn-sm btn-secondary">编辑</button>
-                    <button class="btn btn-sm btn-danger">删除</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="announcement-item priority-medium">
-            <div class="announcement-header">
-                <h3 class="announcement-title">
-                    春节假期安排
-                    <span class="priority-label">重要</span>
-                </h3>
-                <span class="announcement-date">2024-01-17 09:00</span>
-            </div>
-            <div class="announcement-content">
-                根据国家法定节假日安排，平台将于2月10日-2月17日暂停人工客服服务，但系统功能正常使用。如有紧急问题，请发送邮件至support@example.com。
-            </div>
-            <div class="announcement-footer">
-                <span class="announcement-author">发布人：客服主管</span>
-                <div class="announcement-actions">
-                    <button class="btn btn-sm btn-secondary">编辑</button>
-                    <button class="btn btn-sm btn-danger">删除</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="announcement-item priority-low">
-            <div class="announcement-header">
-                <h3 class="announcement-title">
-                    平台使用指南更新
-                    <span class="priority-label">一般</span>
-                </h3>
-                <span class="announcement-date">2024-01-16 14:45</span>
-            </div>
-            <div class="announcement-content">
-                我们更新了平台使用指南，新增了移动端使用说明和常见问题解答。您可以在帮助中心查看最新的使用指南。
-            </div>
-            <div class="announcement-footer">
-                <span class="announcement-author">发布人：技术支持</span>
-                <div class="announcement-actions">
-                    <button class="btn btn-sm btn-secondary">编辑</button>
-                    <button class="btn btn-sm btn-danger">删除</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAnnouncementModal()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveAnnouncement()">保存</button>
             </div>
         </div>
     </div>
+
+    <script>
+        // 公告数据存储
+        let announcements = [];
+        let currentEditingId = null;
+
+        // 优先级配置
+        const priorityConfig = {
+            high: { label: '紧急', class: 'priority-high' },
+            medium: { label: '重要', class: 'priority-medium' },
+            low: { label: '一般', class: 'priority-low' }
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnnouncements();
+        });
+
+        // 从本地存储加载公告数据
+        function loadAnnouncements() {
+            const savedAnnouncements = localStorage.getItem('announcements');
+            if (savedAnnouncements) {
+                announcements = JSON.parse(savedAnnouncements);
+            } else {
+                // 初始化一些示例数据
+                announcements = [
+                    {
+                        id: Date.now() + 1,
+                        title: '系统维护通知',
+                        content: '系统将于今晚22:00-24:00进行例行维护，期间可能影响部分功能使用。请提前保存您的工作内容，给您带来的不便敬请谅解。',
+                        priority: 'high',
+                        author: '系统管理员',
+                        date: '2024-01-20 14:30',
+                        timestamp: Date.now() + 1
+                    },
+                    {
+                        id: Date.now() + 2,
+                        title: '新课程上线通知',
+                        content: '新电子课本上传通知',
+                        priority: 'medium',
+                        author: '课程管理员',
+                        date: '2024-01-19 10:15',
+                        timestamp: Date.now() + 2
+                    },
+                    {
+                        id: Date.now() + 3,
+                        title: '用户反馈收集',
+                        content: '桂林电子科技大学',
+                        priority: 'low',
+                        author: '产品经理',
+                        date: '2024-01-18 16:20',
+                        timestamp: Date.now() + 3
+                    }
+                ];
+                saveAnnouncements();
+            }
+            renderAnnouncements();
+        }
+
+        // 保存公告数据到本地存储
+        function saveAnnouncements() {
+            localStorage.setItem('announcements', JSON.stringify(announcements));
+        }
+
+        // 渲染公告列表
+        function renderAnnouncements() {
+            const announcementList = document.getElementById('announcementList');
+            
+            if (announcements.length === 0) {
+                announcementList.innerHTML = '<div class="no-announcements">暂无公告，点击"发布公告"创建第一条公告</div>';
+                return;
+            }
+
+            // 按时间倒序排列
+            const sortedAnnouncements = announcements.sort((a, b) => b.timestamp - a.timestamp);
+
+            announcementList.innerHTML = sortedAnnouncements.map(announcement => {
+                const priorityInfo = priorityConfig[announcement.priority];
+                return `
+                    <div class="announcement-item ${priorityInfo.class}">
+                        <div class="announcement-header">
+                            <h3 class="announcement-title">
+                                ${announcement.title}
+                                <span class="priority-label">${priorityInfo.label}</span>
+                            </h3>
+                            <span class="announcement-date">${announcement.date}</span>
+                        </div>
+                        <div class="announcement-content">
+                            ${announcement.content}
+                        </div>
+                        <div class="announcement-footer">
+                            <span class="announcement-author">发布人：${announcement.author}</span>
+                            <div class="announcement-actions">
+                                <button class="btn btn-sm btn-secondary" onclick="editAnnouncement(${announcement.id})">编辑</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteAnnouncement(${announcement.id})">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 打开公告模态框
+        function openAnnouncementModal(id = null) {
+            const modal = document.getElementById('announcementModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('announcementForm');
+            
+            // 重置表单
+            form.reset();
+            document.getElementById('announcementAuthor').value = '系统管理员';
+            
+            if (id) {
+                // 编辑模式
+                currentEditingId = id;
+                modalTitle.textContent = '编辑公告';
+                const announcement = announcements.find(a => a.id === id);
+                if (announcement) {
+                    document.getElementById('announcementTitle').value = announcement.title;
+                    document.getElementById('announcementContent').value = announcement.content;
+                    document.getElementById('announcementPriority').value = announcement.priority;
+                    document.getElementById('announcementAuthor').value = announcement.author;
+                }
+            } else {
+                // 新建模式
+                currentEditingId = null;
+                modalTitle.textContent = '发布公告';
+            }
+            
+            modal.style.display = 'block';
+            document.getElementById('announcementTitle').focus();
+        }
+
+        // 关闭公告模态框
+        function closeAnnouncementModal() {
+            const modal = document.getElementById('announcementModal');
+            modal.style.display = 'none';
+            currentEditingId = null;
+        }
+
+        // 保存公告
+        function saveAnnouncement() {
+            const title = document.getElementById('announcementTitle').value.trim();
+            const content = document.getElementById('announcementContent').value.trim();
+            const priority = document.getElementById('announcementPriority').value;
+            const author = document.getElementById('announcementAuthor').value.trim();
+
+            // 验证必填字段
+            if (!title || !content) {
+                alert('请填写公告标题和内容');
+                return;
+            }
+
+            if (currentEditingId) {
+                // 编辑现有公告
+                const announcementIndex = announcements.findIndex(a => a.id === currentEditingId);
+                if (announcementIndex !== -1) {
+                    announcements[announcementIndex] = {
+                        ...announcements[announcementIndex],
+                        title,
+                        content,
+                        priority,
+                        author,
+                        date: new Date().toLocaleString('zh-CN', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }).replace(/\//g, '-')
+                    };
+                }
+            } else {
+                // 创建新公告
+                const newAnnouncement = {
+                    id: Date.now(),
+                    title,
+                    content,
+                    priority,
+                    author,
+                    date: new Date().toLocaleString('zh-CN', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).replace(/\//g, '-'),
+                    timestamp: Date.now()
+                };
+                announcements.push(newAnnouncement);
+            }
+
+            saveAnnouncements();
+            renderAnnouncements();
+            closeAnnouncementModal();
+            
+            // 显示成功消息
+            const message = currentEditingId ? '公告编辑成功！' : '公告发布成功！';
+            showMessage(message, 'success');
+        }
+
+        // 编辑公告
+        function editAnnouncement(id) {
+            openAnnouncementModal(id);
+        }
+
+        // 删除公告
+        function deleteAnnouncement(id) {
+            if (confirm('确定要删除这条公告吗？')) {
+                announcements = announcements.filter(a => a.id !== id);
+                saveAnnouncements();
+                renderAnnouncements();
+                showMessage('公告删除成功！', 'success');
+            }
+        }
+
+        // 显示消息提示
+        function showMessage(message, type = 'info') {
+            // 创建消息元素
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 6px;
+                color: white;
+                font-weight: 600;
+                z-index: 1001;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+            
+            // 根据类型设置样式
+            switch (type) {
+                case 'success':
+                    messageDiv.style.backgroundColor = '#10b981';
+                    break;
+                case 'error':
+                    messageDiv.style.backgroundColor = '#dc2626';
+                    break;
+                case 'warning':
+                    messageDiv.style.backgroundColor = '#f59e0b';
+                    break;
+                default:
+                    messageDiv.style.backgroundColor = '#3b82f6';
+            }
+            
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('announcementModal');
+            if (event.target === modal) {
+                closeAnnouncementModal();
+            }
+        }
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeAnnouncementModal();
+            }
+        });
+
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>

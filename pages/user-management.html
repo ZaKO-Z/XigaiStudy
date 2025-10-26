@@ -1,147 +1,264 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户管理</title>
-    <style>
-        body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f9fafb;
-        }
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        .page-header h1 {
-            color: #1f2937;
-            font-size: 24px;
-            margin: 0;
-        }
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-        .user-table {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        th {
-            background-color: #f9fafb;
-            font-weight: 600;
-            color: #374151;
-        }
-        .status-active {
-            color: #059669;
-            font-weight: 500;
-        }
-        .status-inactive {
-            color: #dc2626;
-            font-weight: 500;
-        }
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
-            margin-right: 5px;
-        }
-        .btn-danger {
-            background-color: #dc2626;
-            color: white;
-        }
-        .btn-danger:hover {
-            background-color: #b91c1c;
-        }
-        .btn-secondary {
-            background-color: #6b7280;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background-color: #4b5563;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>个人中心 - 用户信息管理</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f6fb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0055a5;
+      color: white;
+      padding: 16px 24px;
+      font-size: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background-color: #eef3fb;
+      border-bottom: 1px solid #ddd;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .avatar::after {
+      content: "点击更换头像";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      padding: 3px 0;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .avatar:hover::after {
+      opacity: 1;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .profile-info p {
+      color: #666;
+      margin: 5px 0 0;
+    }
+
+    .content {
+      padding: 20px 30px 40px;
+    }
+    h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+    input, select, textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .actions {
+      text-align: right;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #0055a5;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #003e7a;
+    }
+
+    .divider {
+      margin: 30px 0;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
 </head>
 <body>
-    <div class="page-header">
-        <h1>用户管理</h1>
-        <button class="btn btn-primary">添加用户</button>
+  <header>👤 用户个人中心</header>
+  <div class="container">
+    <div class="profile-header">
+      <div class="avatar" id="avatar">
+        <img id="avatarImg" src="https://i.pravatar.cc/150?img=5" alt="用户头像">
+      </div>
+      <div class="profile-info">
+        <h2 id="displayName">张三</h2>
+        <p id="displayEmail">zhangsan@example.com</p>
+      </div>
     </div>
-    
-    <div class="user-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>用户名</th>
-                    <th>邮箱</th>
-                    <th>角色</th>
-                    <th>状态</th>
-                    <th>注册时间</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>张三</td>
-                    <td>zhangsan@example.com</td>
-                    <td>管理员</td>
-                    <td><span class="status-active">活跃</span></td>
-                    <td>2024-01-15</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary">编辑</button>
-                        <button class="btn btn-sm btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>李四</td>
-                    <td>lisi@example.com</td>
-                    <td>普通用户</td>
-                    <td><span class="status-active">活跃</span></td>
-                    <td>2024-01-16</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary">编辑</button>
-                        <button class="btn btn-sm btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>王五</td>
-                    <td>wangwu@example.com</td>
-                    <td>普通用户</td>
-                    <td><span class="status-inactive">禁用</span></td>
-                    <td>2024-01-17</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary">编辑</button>
-                        <button class="btn btn-sm btn-danger">删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="content">
+      <h3>基本信息</h3>
+      <form id="profileForm">
+        <div>
+          <label for="name">昵称：</label>
+          <input type="text" id="name" value="张三">
+        </div>
+        <div>
+          <label for="email">邮箱：</label>
+          <input type="email" id="email" value="zhangsan@example.com">
+        </div>
+        <div>
+          <label for="phone">手机号：</label>
+          <input type="tel" id="phone" value="13800001234">
+        </div>
+        <div>
+          <label for="bio">个性签名：</label>
+          <textarea id="bio" rows="3" placeholder="写点关于自己的话吧">热爱编程与生活的普通人。</textarea>
+        </div>
+        <div class="actions">
+          <button type="button" onclick="saveProfile()">保存修改</button>
+        </div>
+      </form>
+
+      <div class="divider"></div>
+
+      <h3>账户安全</h3>
+      <form id="passwordForm">
+        <div>
+          <label for="oldPassword">当前密码：</label>
+          <input type="password" id="oldPassword" placeholder="请输入当前密码">
+        </div>
+        <div>
+          <label for="newPassword">新密码：</label>
+          <input type="password" id="newPassword" placeholder="请输入新密码">
+        </div>
+        <div>
+          <label for="confirmPassword">确认新密码：</label>
+          <input type="password" id="confirmPassword" placeholder="再次输入新密码">
+        </div>
+        <div class="actions">
+          <button type="button" onclick="updatePassword()">修改密码</button>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+
+  <script>
+    // 模拟用户数据（实际项目可从服务器获取）
+    const user = {
+      name: "张三",
+      email: "zhangsan@example.com",
+      phone: "13800001234",
+      bio: "热爱编程与生活的普通人。",
+      avatar: "https://i.pravatar.cc/150?img=5"
+    };
+
+    // 初始化
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
+    document.getElementById("phone").value = user.phone;
+    document.getElementById("bio").value = user.bio;
+    document.getElementById("avatarImg").src = user.avatar;
+
+    // 保存信息
+    function saveProfile() {
+      user.name = document.getElementById("name").value.trim();
+      user.email = document.getElementById("email").value.trim();
+      user.phone = document.getElementById("phone").value.trim();
+      user.bio = document.getElementById("bio").value.trim();
+
+      document.getElementById("displayName").textContent = user.name;
+      document.getElementById("displayEmail").textContent = user.email;
+      alert("✅ 信息已保存！");
+      localStorage.setItem("userProfile", JSON.stringify(user));
+    }
+
+    // 修改密码（本地模拟）
+    function updatePassword() {
+      const oldPwd = document.getElementById("oldPassword").value;
+      const newPwd = document.getElementById("newPassword").value;
+      const confirmPwd = document.getElementById("confirmPassword").value;
+      if (!oldPwd || !newPwd || !confirmPwd) {
+        alert("请填写完整密码信息！");
+        return;
+      }
+      if (newPwd !== confirmPwd) {
+        alert("两次输入的新密码不一致！");
+        return;
+      }
+      alert("🔐 密码修改成功（示例中未真正保存）！");
+      document.getElementById("passwordForm").reset();
+    }
+
+    // 更换头像
+    const avatar = document.getElementById("avatar");
+    const avatarInput = document.getElementById("avatarInput");
+
+    avatar.addEventListener("click", () => avatarInput.click());
+    avatarInput.addEventListener("change", function() {
+      const file = this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("avatarImg").src = e.target.result;
+        user.avatar = e.target.result;
+        localStorage.setItem("userProfile", JSON.stringify(user));
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // 从本地加载保存过的资料
+    const saved = localStorage.getItem("userProfile");
+    if (saved) {
+      Object.assign(user, JSON.parse(saved));
+      document.getElementById("name").value = user.name;
+      document.getElementById("email").value = user.email;
+      document.getElementById("phone").value = user.phone;
+      document.getElementById("bio").value = user.bio;
+      document.getElementById("displayName").textContent = user.name;
+      document.getElementById("displayEmail").textContent = user.email;
+      document.getElementById("avatarImg").src = user.avatar;
+    }
+  </script>
 </body>
 </html>
